@@ -5,8 +5,8 @@
         <Grid RowDefinitions="*, 1.8*" Margin="30,10,20,10" AbsoluteLayout.LayoutBounds="1,1,1,1" AbsoluteLayout.LayoutFlags="All">
             <StackLayout VerticalOptions="CenterAndExpand" Spacing="5">
 
-                <Frame BackgroundColor="White" HorizontalOptions="StartAndExpand" WidthRequest="70" HeightRequest="75" Padding="0" HasShadow="False">
-                    <Image Source="steer73" VerticalOptions="StartAndExpand"/>
+                <Frame BackgroundColor="White" HorizontalOptions="StartAndExpand" WidthRequest="80" HeightRequest="80" Padding="0" HasShadow="False">
+                    <Image Source="steer73" VerticalOptions="StartAndExpand" />
                 </Frame>
 
                 <Label FontSize="27" VerticalOptions="Center" FontFamily="Roboto-Medium">
@@ -19,11 +19,9 @@
                 </Label>
 
                 <Frame HasShadow="False" Padding="5,2" BackgroundColor="#f5f5f5" CornerRadius="2" HorizontalOptions="StartAndExpand">
-                    <Label Text="Swipe left or right" FontSize="10" FontFamily="Roboto-Thin" />
+                    <Label Text="Swipe left to remove user" FontSize="10" FontFamily="Roboto-Thin" />
                 </Frame>
             </StackLayout>
-
-
 
             <CollectionView x:Name="cvUsers" ItemsSource="{Binding DetailedUsers}" Grid.Row="1" IsGrouped="False" SelectionMode="Single" VerticalScrollBarVisibility="Never" VerticalOptions="FillAndExpand">
                 <CollectionView.ItemsLayout>
@@ -32,24 +30,17 @@
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Frame CornerRadius="12" BorderColor="#f1f1f1" VerticalOptions="StartAndExpand" HasShadow="False" Padding="0" BackgroundColor="White" IsClippedToBounds="True">
+                        <Frame CornerRadius="2" BorderColor="#f1f1f1" VerticalOptions="StartAndExpand" HasShadow="False" Padding="0" BackgroundColor="White" IsClippedToBounds="True">
                             <SwipeView IsEnabled="{Binding AllowSwipe}">
-                                <SwipeView.LeftItems>
-                                    <SwipeItems Mode="Execute">
-                                        <SwipeItem Text="Choose" IconImageSource="choose.png" BackgroundColor="LightGreen" />
-                                        <!--  Invoked="OnChooseSwipeItemInvoked"  -->
-                                    </SwipeItems>
-                                </SwipeView.LeftItems>
                                 <SwipeView.RightItems>
                                     <SwipeItems Mode="Execute">
-                                        <SwipeItem Text="Delete" IconImageSource="delete.png" BackgroundColor="LightPink" />
-                                        <!--  Invoked="OnDeleteSwipeItemInvoked"  -->
+                                        <SwipeItem Text="Remove" IconImageSource="delete.png" BackgroundColor="LightPink" Invoked="OnDeleteSwipeItemInvoked" />
                                     </SwipeItems>
                                 </SwipeView.RightItems>
 
-                                <Grid ColumnDefinitions="auto,*" ColumnSpacing="15" Padding="17,20,10,20" BackgroundColor="White">
-                                    <Frame BackgroundColor="{Binding Color, FallbackValue='AliceBlue'}" WidthRequest="50" HeightRequest="50" CornerRadius="10" Padding="0" HasShadow="False" VerticalOptions="Center" HorizontalOptions="StartAndExpand">
-                                        <Label Text="{Binding Initials, FallbackValue='Initials'}" TextColor="Black" CharacterSpacing="0" FontSize="19" VerticalOptions="Center" HorizontalOptions="Center" FontFamily="Roboto-Regular" MaxLines="1"/>
+                                <Grid Margin="1" ColumnDefinitions="auto,*,10" ColumnSpacing="15" Padding="15,18,8,18" BackgroundColor="White">
+                                    <Frame BackgroundColor="{Binding Color, FallbackValue='AliceBlue'}" WidthRequest="50" HeightRequest="50" CornerRadius="5" Padding="0" HasShadow="False" VerticalOptions="Center" HorizontalOptions="StartAndExpand">
+                                        <Label Text="{Binding Initials, FallbackValue='Initials'}" TextColor="Black" CharacterSpacing="0" FontSize="18" VerticalOptions="Center" HorizontalOptions="Center" FontFamily="Roboto-Regular" MaxLines="1" />
                                     </Frame>
 
                                     <StackLayout Spacing="2" Grid.Column="1" VerticalOptions="CenterAndExpand">
@@ -65,6 +56,8 @@
                                         </Label>
 
                                     </StackLayout>
+
+                                    <BoxView IsVisible="{Binding IsMarked, FallbackValue='false'}" Color="Red" VerticalOptions="CenterAndExpand" HeightRequest="2" Grid.Column="2" />
                                 </Grid>
                             </SwipeView>
                         </Frame>
@@ -96,13 +89,8 @@
         </Grid>
 
         <Frame x:Name="frmLoader" Padding="0" AbsoluteLayout.LayoutBounds=".92,.96" AbsoluteLayout.LayoutFlags="PositionProportional" BackgroundColor="Black" BorderColor="White" CornerRadius="25" HeightRequest="50" WidthRequest="50" IsClippedToBounds="True">
-            <!--<Frame.GestureRecognizers>
-                <TapGestureRecognizer Tapped="History_Tapped" />
-            </Frame.GestureRecognizers>-->
-
             <Grid>
                 <ActivityIndicator x:Name="actInd" IsRunning="False" Color="White" VerticalOptions="FillAndExpand" />
-                <!--<Image x:Name="filterIcon" Source="filter" WidthRequest="20" VerticalOptions="CenterAndExpand" />-->
             </Grid>
         </Frame>
     </AbsoluteLayout>

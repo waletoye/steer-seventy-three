@@ -35,6 +35,12 @@ namespace Steer73.FormsApp.Views
             lblError.Text = "No users available...";
         }
 
+        void OnDeleteSwipeItemInvoked(System.Object sender, System.EventArgs e)
+        {
+            var context = (sender as SwipeItem).BindingContext;
+            vm.RemoveUser(context);
+        }
+
         private bool isLoading;
         private bool IsLoading
         {

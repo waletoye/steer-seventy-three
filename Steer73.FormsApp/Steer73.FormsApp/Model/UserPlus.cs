@@ -19,5 +19,7 @@ namespace Steer73.FormsApp.Model
         }
 
         public Color Color => Utilities.Functions.GetRandomColor();
+
+        public bool IsMarked { get; internal set; }
     }
 }

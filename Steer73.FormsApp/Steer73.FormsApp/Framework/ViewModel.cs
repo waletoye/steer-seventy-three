@@ -15,7 +15,7 @@ namespace Steer73.FormsApp.Framework
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public virtual event PropertyChangedEventHandler PropertyChanged;
     }
 
 }
