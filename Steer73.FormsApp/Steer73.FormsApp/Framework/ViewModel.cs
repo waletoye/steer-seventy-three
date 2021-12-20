@@ -17,4 +17,5 @@ namespace Steer73.FormsApp.Framework
 
         public event PropertyChangedEventHandler PropertyChanged;
     }
+
 }

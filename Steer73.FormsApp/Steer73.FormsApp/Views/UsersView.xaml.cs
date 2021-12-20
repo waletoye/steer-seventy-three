@@ -1,4 +1,5 @@
-﻿using Steer73.FormsApp.Framework;
+﻿using System.Threading.Tasks;
+using Steer73.FormsApp.Framework;
 using Steer73.FormsApp.Model;
 using Steer73.FormsApp.ViewModels;
 using Xamarin.Forms;
@@ -7,26 +8,53 @@ namespace Steer73.FormsApp.Views
 {
     public partial class UsersView : ContentPage
     {
+        UsersViewModel vm;
+
         public UsersView()
         {
             InitializeComponent();
 
-            ViewModel = new UsersViewModel(
-                new UserService(),
-                new MessageService());
+            frmLoader.IsVisible = false;
+            BindingContext = vm = new UsersViewModel(new UserService(), new MessageService());
         }
 
-        protected override async void OnAppearing()
+        protected async override void OnAppearing()
         {
             base.OnAppearing();
-
-            await ViewModel.Initialize();
+            await LoadUsers();
         }
 
-        protected UsersViewModel ViewModel
+        private async Task LoadUsers()
         {
-            get => BindingContext as UsersViewModel;
-            set => BindingContext = value;
+            IsLoading = true;
+            lblError.Text = "Loading users directory...";
+
+            await vm.Initialize();
+
+            IsLoading = false;
+            lblError.Text = "No users available...";
+        }
+
+        private bool isLoading;
+        private bool IsLoading
+        {
+            get => isLoading;
+            set
+            {
+                isLoading = value;
+                if (value)
+                {
+                    frmLoader.IsVisible = true;
+                    actInd.IsRunning = true;
+                    //filterIcon.IsVisible = false;
+                }
+                else
+                {
+                    frmLoader.IsVisible = false;
+                    actInd.IsRunning = false;
+                    //filterIcon.IsVisible = true;
+                }
+            }
         }
     }
 }

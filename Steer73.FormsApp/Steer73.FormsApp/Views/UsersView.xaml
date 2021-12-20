@@ -1,8 +1,126 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
-<ContentPage
-    xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="Steer73.FormsApp.Views.UsersView">
-    <ContentPage.Content>
-    </ContentPage.Content>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Steer73.FormsApp.Views.UsersView" Style="{StaticResource NPStyle}">
+
+    <AbsoluteLayout>
+        <Grid RowDefinitions="*, 1.8*" Margin="30,10,20,10" AbsoluteLayout.LayoutBounds="1,1,1,1" AbsoluteLayout.LayoutFlags="All">
+            <StackLayout VerticalOptions="CenterAndExpand" Spacing="5">
+
+                <Frame BackgroundColor="White" HorizontalOptions="StartAndExpand" WidthRequest="70" HeightRequest="75" Padding="0" HasShadow="False">
+                    <Image Source="steer73" VerticalOptions="StartAndExpand"/>
+                </Frame>
+
+                <Label FontSize="27" VerticalOptions="Center" FontFamily="Roboto-Medium">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Users &#x0a;" TextColor="Black" />
+                            <Span Text="Directory" TextColor="#2a74ed" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+                <Frame HasShadow="False" Padding="5,2" BackgroundColor="#f5f5f5" CornerRadius="2" HorizontalOptions="StartAndExpand">
+                    <Label Text="Swipe left or right" FontSize="10" FontFamily="Roboto-Thin" />
+                </Frame>
+            </StackLayout>
+
+
+
+            <CollectionView x:Name="cvUsers" ItemsSource="{Binding DetailedUsers}" Grid.Row="1" IsGrouped="False" SelectionMode="Single" VerticalScrollBarVisibility="Never" VerticalOptions="FillAndExpand">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" VerticalItemSpacing="13" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame CornerRadius="12" BorderColor="#f1f1f1" VerticalOptions="StartAndExpand" HasShadow="False" Padding="0" BackgroundColor="White" IsClippedToBounds="True">
+                            <SwipeView IsEnabled="{Binding AllowSwipe}">
+                                <SwipeView.LeftItems>
+                                    <SwipeItems Mode="Execute">
+                                        <SwipeItem Text="Choose" IconImageSource="choose.png" BackgroundColor="LightGreen" />
+                                        <!--  Invoked="OnChooseSwipeItemInvoked"  -->
+                                    </SwipeItems>
+                                </SwipeView.LeftItems>
+                                <SwipeView.RightItems>
+                                    <SwipeItems Mode="Execute">
+                                        <SwipeItem Text="Delete" IconImageSource="delete.png" BackgroundColor="LightPink" />
+                                        <!--  Invoked="OnDeleteSwipeItemInvoked"  -->
+                                    </SwipeItems>
+                                </SwipeView.RightItems>
+
+                                <Grid ColumnDefinitions="auto,*" ColumnSpacing="15" Padding="17,20,10,20" BackgroundColor="White">
+                                    <Frame BackgroundColor="{Binding Color, FallbackValue='AliceBlue'}" WidthRequest="50" HeightRequest="50" CornerRadius="10" Padding="0" HasShadow="False" VerticalOptions="Center" HorizontalOptions="StartAndExpand">
+                                        <Label Text="{Binding Initials, FallbackValue='Initials'}" TextColor="Black" CharacterSpacing="0" FontSize="19" VerticalOptions="Center" HorizontalOptions="Center" FontFamily="Roboto-Regular" MaxLines="1"/>
+                                    </Frame>
+
+                                    <StackLayout Spacing="2" Grid.Column="1" VerticalOptions="CenterAndExpand">
+                                        <Label Text="{Binding FullName, FallbackValue='Fullname'}" FontSize="17" FontFamily="Roboto-Regular" />
+
+                                        <Label Style="{StaticResource descriptionTextStyle}">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="Email: " TextColor="DarkBlue" />
+                                                    <Span Text="{Binding Email, FallbackValue='Email Address'}" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+
+                                    </StackLayout>
+                                </Grid>
+                            </SwipeView>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+                <CollectionView.EmptyView>
+                    <Grid>
+                        <StackLayout Spacing="0" Margin="0,30,0,0" Orientation="Horizontal" VerticalOptions="StartAndExpand" HorizontalOptions="CenterAndExpand">
+                            <!--<Image Source="info" WidthRequest="32" VerticalOptions="StartAndExpand" />-->
+                            <Label x:Name="lblError" Text="Loading secret developers directory..." FontFamily="Roboto-Regular" TextColor="DarkBlue" FontSize="14" VerticalTextAlignment="Center" />
+                        </StackLayout>
+                    </Grid>
+                </CollectionView.EmptyView>
+
+                <!--<CollectionView.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Gre</x:String>
+                        <x:String>Gre</x:String>
+                        <x:String>Gre</x:String>
+                        <x:String>Gre</x:String>
+                        <x:String>Gre</x:String>
+                        <x:String>Gre</x:String>
+                        <x:String>Gre</x:String>
+                        <x:String>Gre</x:String>
+                    </x:Array>
+                </CollectionView.ItemsSource>-->
+            </CollectionView>
+        </Grid>
+
+        <Frame x:Name="frmLoader" Padding="0" AbsoluteLayout.LayoutBounds=".92,.96" AbsoluteLayout.LayoutFlags="PositionProportional" BackgroundColor="Black" BorderColor="White" CornerRadius="25" HeightRequest="50" WidthRequest="50" IsClippedToBounds="True">
+            <!--<Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="History_Tapped" />
+            </Frame.GestureRecognizers>-->
+
+            <Grid>
+                <ActivityIndicator x:Name="actInd" IsRunning="False" Color="White" VerticalOptions="FillAndExpand" />
+                <!--<Image x:Name="filterIcon" Source="filter" WidthRequest="20" VerticalOptions="CenterAndExpand" />-->
+            </Grid>
+        </Frame>
+    </AbsoluteLayout>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="Black" />
+            </Style>
+
+            <Style TargetType="Label" x:Key="descriptionTextStyle">
+                <Setter Property="TextColor" Value="Black" />
+                <Setter Property="FontSize" Value="11" />
+                <Setter Property="FontFamily" Value="Roboto-Thin" />
+                <Setter Property="LineBreakMode" Value="WordWrap" />
+                <Setter Property="Opacity" Value="0.7" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
 </ContentPage>
