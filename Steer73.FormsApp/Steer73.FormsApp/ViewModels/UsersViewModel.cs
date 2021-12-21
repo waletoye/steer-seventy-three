@@ -22,13 +22,15 @@ namespace Steer73.FormsApp.ViewModels
 
         public async Task Initialize()
         {
+            IEnumerable<User> users = new List<User>();
+
             try
             {
                 DetailedUsers = new ObservableCollection<UserPlus>();
 
                 IsBusy = true;
 
-                var users = await _userService.GetUsers();
+                users = await _userService.GetUsers();
 
                 foreach (var user in users)
                 {
