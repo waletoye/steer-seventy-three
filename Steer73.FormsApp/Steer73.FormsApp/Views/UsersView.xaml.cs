@@ -56,11 +56,18 @@ namespace Steer73.FormsApp.Views
                 }
                 else
                 {
-                    frmLoader.IsVisible = false;
+                    //frmLoader.IsVisible = false;
                     actInd.IsRunning = false;
                     //filterIcon.IsVisible = true;
                 }
             }
         }
+
+        void Button_Clicked(System.Object sender, System.EventArgs e)
+        {
+            vm.RemoveFirstUser();
+        }
+        //entry with bg color, border color
+        //
     }
 }

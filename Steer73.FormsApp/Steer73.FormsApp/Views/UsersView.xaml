@@ -21,6 +21,8 @@
                 <Frame HasShadow="False" Padding="5,2" BackgroundColor="#f5f5f5" CornerRadius="2" HorizontalOptions="StartAndExpand">
                     <Label Text="Swipe left to remove user" FontSize="10" FontFamily="Roboto-Thin" />
                 </Frame>
+
+                <Entry Text="{Binding SearchText}" BackgroundColor="AntiqueWhite" Placeholder="search...."/>
             </StackLayout>
 
             <CollectionView x:Name="cvUsers" ItemsSource="{Binding DetailedUsers}" Grid.Row="1" IsGrouped="False" SelectionMode="Single" VerticalScrollBarVisibility="Never" VerticalOptions="FillAndExpand">
@@ -91,6 +93,7 @@
         <Frame x:Name="frmLoader" Padding="0" AbsoluteLayout.LayoutBounds=".92,.96" AbsoluteLayout.LayoutFlags="PositionProportional" BackgroundColor="Black" BorderColor="White" CornerRadius="25" HeightRequest="50" WidthRequest="50" IsClippedToBounds="True">
             <Grid>
                 <ActivityIndicator x:Name="actInd" IsRunning="False" Color="White" VerticalOptions="FillAndExpand" />
+                <Button x:Name="btnRemove" Text="Remove Frist" Clicked="Button_Clicked"/>
             </Grid>
         </Frame>
     </AbsoluteLayout>

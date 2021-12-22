@@ -32,6 +32,10 @@ namespace Steer73.FormsApp.ViewModels
 
                 users = await _userService.GetUsers();
 
+
+                users = users.OrderBy(x => x.FirstName).OrderBy(y => y.LastName);
+
+
                 foreach (var user in users)
                 {
                     DetailedUsers.Add(new UserPlus
@@ -40,6 +44,9 @@ namespace Steer73.FormsApp.ViewModels
                         LastName = user.LastName,
                     });
                 }
+
+                DetailedUsers = new ObservableCollection<UserPlus>(DetailedUsers.OrderBy(x => x.FullName).ToList());
+
             }
             catch (Exception ex)
             {
@@ -63,14 +70,37 @@ namespace Steer73.FormsApp.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("DetailedUsers"));
         }
 
+        internal void RemoveFirstUser()
+        {
+            //remove first element
+            DetailedUsers.RemoveAt(0);
+            //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("DetailedUsers"));
+        }
+
         public bool IsBusy { get; set; }
 
+        //original data
         public ObservableCollection<UserPlus> DetailedUsers { get; set; }
+
+        //source, sorted
+        public ObservableCollection<UserPlus> UserSource { get; set; }
 
 
         //public ICollection<User> Users { get; } = new List<User>();
         //public ICollection<UserPlus> DetailedUsers { get; set; } = new List<UserPlus>();
 
         public override event PropertyChangedEventHandler PropertyChanged;
+
+        string searchText;
+        public string SearchText
+        {
+            get => searchText;
+            set
+            {
+                searchText = value;
+                DetailedUsers = new ObservableCollection<UserPlus>(DetailedUsers.Where(x => x.FullName.Contains(searchText)).ToList());
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("DetailedUsers"));
+            }
+        }
     }
 }
