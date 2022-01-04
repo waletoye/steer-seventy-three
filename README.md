@@ -1,5 +1,3 @@
-# STEER-SEVENTY-THREE
-
 ##   Readme
 The app has following functionalities:
 1. Load all users information
